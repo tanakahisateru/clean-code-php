@@ -1,22 +1,22 @@
 ﻿# Clean Code PHP
 
-## Table of Contents
+## 目次
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-     * [Use meaningful and pronounceable variable names](#use-meaningful-and-pronounceable-variable-names)
-     * [Use the same vocabulary for the same type of variable](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [Use searchable names (part 1)](#use-searchable-names-part-1)
-     * [Use searchable names (part 2)](#use-searchable-names-part-2)
-     * [Use explanatory variables](#use-explanatory-variables)
-     * [Avoid nesting too deeply and return early (part 1)](#avoid-nesting-too-deeply-and-return-early-part-1)
-     * [Avoid nesting too deeply and return early (part 2)](#avoid-nesting-too-deeply-and-return-early-part-2)
-     * [Avoid Mental Mapping](#avoid-mental-mapping)
-     * [Don't add unneeded context](#dont-add-unneeded-context)
-     * [Use default arguments instead of short circuiting or conditionals](#use-default-arguments-instead-of-short-circuiting-or-conditionals)
+  1. [前書き](#前書き)
+  2. [変数](#変数)
+     * [意味があり発音可能な変数名を使用する](#意味があり発音可能な変数名を使用する)
+     * [同じ種類の変数には同じ語彙を使用する](#同じ種類の変数には同じ語彙を使用する)
+     * [検索可能な名前を使用する (part 1)](#検索可能な名前を使用する-part-1)
+     * [検索可能な名前を使用する (part 2)](#検索可能な名前を使用する-part-2)
+     * [説明変数を使用する](#説明変数を使用する)
+     * [深すぎるネストを避けて早期リターンする (part 1)](#深すぎるネストを避けて早期リターンする-part-1)
+     * [深すぎるネストを避けて早期リターンする (part 2)](#深すぎるネストを避けて早期リターンする-part-2)
+     * [メンタルマッピングを避ける](#メンタルマッピングを避ける)
+     * [不要な文脈を追加しない](#不要な文脈を追加しない)
+     * [短絡や条件ではなくデフォルト引数を使用する](#短絡や条件ではなくデフォルト引数を使用する)
   3. [Comparison](#comparison)
      * [Use identical comparison](#use-identical-comparison)
-  4. [Functions](#functions)
+  4. [関数](#関数)
      * [Function arguments (2 or fewer ideally)](#function-arguments-2-or-fewer-ideally)
      * [Functions should do one thing](#functions-should-do-one-thing)
      * [Function names should say what they do](#function-names-should-say-what-they-do)
@@ -31,10 +31,10 @@
      * [Avoid type-checking (part 1)](#avoid-type-checking-part-1)
      * [Avoid type-checking (part 2)](#avoid-type-checking-part-2)
      * [Remove dead code](#remove-dead-code)
-  5. [Objects and Data Structures](#objects-and-data-structures)
+  5. [オブジェクトとデータ構造](#objects-and-data-structures)
      * [Use object encapsulation](#use-object-encapsulation)
      * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
-  6. [Classes](#classes)
+  6. [クラス](#classes)
      * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
      * [Avoid fluent interfaces](#avoid-fluent-interfaces)
      * [Prefer `final` classes](#prefer-final-classes)
@@ -44,27 +44,25 @@
      * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
      * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
      * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  8. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  9. [Translations](#translations)
+  8. [同じことをしない (DRY)](#dont-repeat-yourself-dry)
+  9. [翻訳](#translations)
 
-## Introduction
+## 前書き
 
-Software engineering principles, from Robert C. Martin's book
-[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+ロバートC.マーティンの書籍 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+によってもたらされたソフトウェア工学の原則は、PHPにも合致しています。これはスタイルガイドではありません。
+可読性があり、再利用性があり、リファクタリング可能なソフトウェアを PHP で作成するためのガイドです。
 
-Not every principle herein has to be strictly followed, and even fewer will be universally 
-agreed upon. These are guidelines and nothing more, but they are ones codified over many 
-years of collective experience by the authors of *Clean Code*.
+ここにあるすべての原則に厳密に従わなければならないわけではありませんし、普遍的に認められたものも少ないでしょう。
+これらはガイドラインであってそれ以上のものはありません、が、 *Clean Code* の著者が何年もかけて積み重ねた経験を文書化したものです。
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+[clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript) に触発されました。
 
-Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.
+まだ多くの開発者が PHP 5 を使用しているのですが、この記事のほとんどの例は PHP 7.1 以降でのみ動作します。
 
-## Variables
+## 変数
 
-### Use meaningful and pronounceable variable names
+### 意味があり発音可能な変数名を使用する
 
 **Bad:**
 
@@ -78,9 +76,9 @@ $ymdstr = $moment->format('y-m-d');
 $currentDate = $moment->format('y-m-d');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Use the same vocabulary for the same type of variable
+### 同じ種類の変数には同じ語彙を使用する
 
 **Bad:**
 
@@ -97,19 +95,17 @@ getUserProfile();
 getUser();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Use searchable names (part 1)
+### 検索可能な名前を使用する (part 1)
 
-We will read more code than we will ever write. It's important that the code we do write is 
-readable and searchable. By *not* naming variables that end up being meaningful for 
-understanding our program, we hurt our readers.
-Make your names searchable.
+私たちは、書いていくコードよりも多くのコードを読むことになります。私たちが書いたコードは読みやすく、検索可能であることが重要です。
+プログラムを理解するうえで意味のある変数名を付けないことで、私たちは読む人を傷つけています。名前を検索可能にしてください。
 
 **Bad:**
 
 ```php
-// What the heck is 448 for?
+// ちょっとなにこの 448 って?
 $result = $serializer->serialize($data, 448);
 ```
 
@@ -119,12 +115,12 @@ $result = $serializer->serialize($data, 448);
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
+### 検索可能な名前を使用する (part 2)
 
 **Bad:**
 
 ```php
-// What the heck is 4 for?
+// ちょっとなにこの 4 って?
 if ($user->access & 4) {
     // ...
 }
@@ -142,13 +138,13 @@ class User
 }
 
 if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
+    // 編集機能を実行 ...
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Use explanatory variables
+### 説明変数を使用する
 
 **Bad:**
 
@@ -162,7 +158,7 @@ saveCityZipCode($matches[1], $matches[2]);
 
 **Not bad:**
 
-It's better, but we are still heavily dependent on regex.
+マシですが、まだ正規表現に強く依存しています。
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -175,7 +171,7 @@ saveCityZipCode($city, $zipCode);
 
 **Good:**
 
-Decrease dependence on regex by naming subpatterns.
+名前付きサブパターンで正規表現への依存を減らしましょう。
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -185,12 +181,11 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches['city'], $matches['zipCode']);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Avoid nesting too deeply and return early (part 1)
+### 深すぎるネストを避けて早期リターンする (part 1)
 
-Too many if-else statements can make your code hard to follow. Explicit is better
-than implicit.
+if else 文が多すぎるとコードが追跡しにくくなります。明示的であることは暗黙的より良いことです。
 
 **Bad:**
 
@@ -235,9 +230,9 @@ function isShopOpen(string $day): bool
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Avoid nesting too deeply and return early (part 2)
+### 深すぎるネストを避けて早期リターンする (part 2)
 
 **Bad:**
 
@@ -277,12 +272,12 @@ function fibonacci(int $n): int
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Avoid Mental Mapping
+### メンタルマッピングを避ける
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+コードの読者に変数が何を意味するか翻訳させないでください。
+明示的であることは暗黙的より良いことです。
 
 **Bad:**
 
@@ -296,7 +291,7 @@ for ($i = 0; $i < count($l); $i++) {
     // ...
     // ...
     // ...
-    // Wait, what is `$li` for again?
+    // まって、`$li` ってなんだっけ ?
     dispatch($li);
 }
 ```
@@ -316,12 +311,11 @@ foreach ($locations as $location) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Don't add unneeded context
+### 不要な文脈を追加しない
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+クラス/オブジェクト名で何かしらがわかるのなら、それを変数名で繰り返さないでください。
 
 **Bad:**
 
@@ -349,13 +343,13 @@ class Car
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
-### Use default arguments instead of short circuiting or conditionals
+### 短絡や条件ではなくデフォルト引数を使用する
 
 **Not good:**
 
-This is not good because `$breweryName` can be `NULL`.
+これは `$breweryName` が `NULL` になりえるのであまり良くないです。
 
 ```php
 function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
@@ -366,7 +360,7 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
 
 **Not bad:**
 
-This opinion is more understandable than the previous version, but it better controls the value of the variable.
+こっちの意見は前のバージョンよりも理解しやすいですが、変数の値をがんばって制御しています。
 
 ```php
 function createMicrobrewery($name = null): void
@@ -378,7 +372,8 @@ function createMicrobrewery($name = null): void
 
 **Good:**
 
- You can use [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) and be sure that the `$breweryName` will not be `NULL`.
+[タイプヒント](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration)
+が使えるので、`$breweryName` が `NULL` にならないことを保証できます。
 
 ```php
 function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
@@ -387,7 +382,7 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ## Comparison
 
@@ -427,7 +422,7 @@ The comparison `$a !== $b` returns `TRUE`.
 **[⬆ back to top](#table-of-contents)**
 
 
-## Functions
+## 関数
 
 ### Function arguments (2 or fewer ideally)
 
@@ -472,7 +467,7 @@ function createMenu(MenuConfig $config): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Functions should do one thing
 
@@ -517,7 +512,7 @@ function isClientActive(int $client): bool
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Function names should say what they do
 
@@ -557,7 +552,7 @@ $message = new Email(...);
 $message->send();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Functions should only be one level of abstraction
 
@@ -695,7 +690,7 @@ class BetterJSAlternative
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Don't use flags as function parameters
 
@@ -730,7 +725,7 @@ function createTempFile(string $name): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid Side Effects
 
@@ -782,7 +777,7 @@ var_dump($name); // 'Ryan McDermott';
 var_dump($newName); // ['Ryan', 'McDermott'];
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Don't write to global functions
 
@@ -832,7 +827,7 @@ $configuration = new Configuration([
 
 And now you must use instance of `Configuration` in your application.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Don't use a Singleton pattern
 
@@ -893,7 +888,7 @@ $connection = new DBConnection($dsn);
 
 And now you must use instance of `DBConnection` in your application.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Encapsulate conditionals
 
@@ -913,7 +908,7 @@ if ($article->isPublished()) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid negative conditionals
 
@@ -944,7 +939,7 @@ if (isDOMNodePresent($node)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid conditionals
 
@@ -1019,7 +1014,7 @@ class Cessna implements Airplane
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid type-checking (part 1)
 
@@ -1050,7 +1045,7 @@ function travelToTexas(Traveler $vehicle): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid type-checking (part 2)
 
@@ -1086,7 +1081,7 @@ function combine(int $val1, int $val2): int
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Remove dead code
 
@@ -1123,7 +1118,7 @@ $request = requestModule($requestUrl);
 inventoryTracker('apples', $request, 'www.inventory-awesome.io');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 
 ## Objects and Data Structures
@@ -1199,7 +1194,7 @@ $bankAccount->withdraw($shoesPrice);
 $balance = $bankAccount->getBalance();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Make objects have private/protected members
 
@@ -1250,7 +1245,7 @@ $employee = new Employee('John Doe');
 echo 'Employee name: '.$employee->getName(); // Employee name: John Doe
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ## Classes
 
@@ -1348,7 +1343,7 @@ class Employee
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Avoid fluent interfaces
 
@@ -1452,7 +1447,7 @@ $car->setModel('F-150');
 $car->dump();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Prefer final classes
 
@@ -1607,7 +1602,7 @@ class UserSettings
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Open/Closed Principle (OCP)
 
@@ -1721,7 +1716,7 @@ class HttpRequester
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Liskov Substitution Principle (LSP)
 
@@ -1849,7 +1844,7 @@ foreach ($shapes as $shape) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Interface Segregation Principle (ISP)
 
@@ -1940,7 +1935,7 @@ class Robot implements Workable
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ### Dependency Inversion Principle (DIP)
 
@@ -2032,7 +2027,7 @@ class Manager
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ## Don’t repeat yourself (DRY)
 
@@ -2132,7 +2127,7 @@ function showList(array $employees): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#目次)**
 
 ## Translations
 
@@ -2155,5 +2150,7 @@ This is also available in other languages:
    * [viethuongdev/clean-code-php](https://github.com/viethuongdev/clean-code-php)
 * :kr: **Korean:**
    * [yujineeee/clean-code-php](https://github.com/yujineeee/clean-code-php)
-   
-**[⬆ back to top](#table-of-contents)**
+* :jp: **Japanese**
+   * [tanakahisateru/clean-code-php](https://github.com/tanakahisateru/clean-code-php)
+
+**[⬆ back to top](#目次)**
